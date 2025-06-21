@@ -1,53 +1,35 @@
 <header>
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark border-bottom">
-        <div class="container-fluid">
-            <a class="navbar-brand fw-bold fs-4" href="{% url 'landing_page' %}">SISTEMA BANCARIO</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
-                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
-                <ul class="navbar-nav">
-                    {% if user.is_authenticated %}
-                    <li class="nav-item">
-                        <a href="{% url 'home' %}" class="nav-link">Inicio</a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="{% url 'editar_perfil' %}" class="nav-link">Mi perfil</a>
-                    </li>
-                    {% if user.is_superuser %}
-                    <li class="nav-item">
-                        <a href="{% url 'gestionar_solicitudes_prestamo' %}"
-                            class="nav-link btn btn-warning text-white fw-bold px-3 rounded-3 ms-2">
-                            Revisar solicitudes de préstamo
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="{% url 'historial_sesiones' %}"
-                            class="nav-link btn btn-info text-white fw-bold px-3 rounded-3 ms-2">
-                            Historial de sesiones
-                        </a>
-                    </li>
-                    {% endif %}
-                    <li class="nav-item">
-                        <span class="nav-link disabled">Hola, {{ user.first_name }}</span>
-                    </li>
-                    <li class="nav-item">
-                        <form action="{% url 'logout' %}" method="post" style="display:inline;">
-                            {% csrf_token %}
-                            <button type="submit" class="nav-link btn btn-link">Cerrar sesión</button>
-                        </form>
-                    </li>
-                    {% else %}
-                    <li class="nav-item">
-                        <a href="{% url 'registro' %}" class="nav-link">Registrarse</a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="{% url 'login' %}" class="nav-link">Iniciar sesión</a>
-                    </li>
-                    {% endif %}
-                </ul>
-            </div>
+    <nav class="bg-gray-900 border-b border-gray-700">
+      <div class="max-w-7xl mx-auto px-4 flex items-center justify-between h-16">
+        <a href="{% url 'landing_page' %}" class="text-white font-bold text-xl">
+          SISTEMA BANCARIO
+        </a>
+        <div class="flex space-x-4 items-center">
+          {% if user.is_authenticated %}
+            <a href="{% url 'home' %}" class="text-gray-300 hover:text-white">Inicio</a>
+            <a href="{% url 'editar_perfil' %}" class="text-gray-300 hover:text-white">Mi perfil</a>
+  
+            {% if user.is_superuser %}
+              <a href="{% url 'gestionar_solicitudes_prestamo' %}" class="bg-yellow-500 text-white font-semibold px-3 py-1 rounded hover:bg-yellow-600">
+                Revisar solicitudes de préstamo
+              </a>
+              <a href="{% url 'historial_sesiones' %}" class="bg-blue-500 text-white font-semibold px-3 py-1 rounded hover:bg-blue-600">
+                Historial de sesiones
+              </a>
+            {% endif %}
+  
+            <span class="text-gray-400">Hola, {{ user.first_name }}</span>
+            <form action="{% url 'logout' %}" method="post" class="inline">
+              {% csrf_token %}
+              <button type="submit" class="text-red-400 hover:underline">Cerrar sesión</button>
+            </form>
+  
+          {% else %}
+            <a href="{% url 'registro' %}" class="text-gray-300 hover:text-white">Registrarse</a>
+            <a href="{% url 'login' %}" class="text-gray-300 hover:text-white">Iniciar sesión</a>
+          {% endif %}
         </div>
+      </div>
     </nav>
-</header>
+  </header>
+  
