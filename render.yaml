@@ -2,7 +2,9 @@ services:
   - type: web
     name: sistema-bancario
     env: python
-    buildCommand: "pip install -r requirements.txt"
+    buildCommand: |
+      pip install -r requirements.txt
+      python manage.py collectstatic --noinput
     startCommand: "gunicorn sistema_bancario.wsgi:application"
     envVars:
       - key: DJANGO_SETTINGS_MODULE
@@ -11,6 +13,7 @@ services:
         fromDatabase:
           name: sistema_bancario_db
           property: connectionString
-    buildCommand: |
-      pip install -r requirements.txt
-      python manage.py collectstatic --noinput
+
+databases:
+  - name: sistema_bancario_db
+    plan: free
