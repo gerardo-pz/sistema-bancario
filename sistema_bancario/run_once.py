@@ -11,6 +11,10 @@ from django.core.management import call_command
 print("Aplicando migraciones...")
 call_command("migrate")
 
+# Ejecutar collectstatic para Render
+print("Reuniendo archivos estáticos...")
+call_command("collectstatic", interactive=False)
+
 # Crear superusuario solo si no existe
 User = get_user_model()
 if not User.objects.filter(username="admin").exists():
