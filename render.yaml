@@ -2,10 +2,8 @@ services:
   - type: web
     name: sistema-bancario
     env: python
-    buildCommand: |
-      pip install -r requirements.txt
-      python sistema_bancario/run_once.py
-    startCommand: gunicorn sistema_bancario.wsgi:application
+    buildCommand: "pip install -r requirements.txt"
+    startCommand: "python run_once.py && gunicorn sistema_bancario.wsgi:application"
     envVars:
       - key: DJANGO_SETTINGS_MODULE
         value: sistema_bancario.settings
@@ -13,10 +11,6 @@ services:
         fromDatabase:
           name: sistema_bancario_db
           property: connectionString
-      - key: SECRET_KEY
-        value: tu_clave_secreta_aqui
-      - key: DEBUG
-        value: "False"
 
 databases:
   - name: sistema_bancario_db
