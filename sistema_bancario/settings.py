@@ -2,17 +2,15 @@ from pathlib import Path
 import os
 import dj_database_url
 
-# Build paths inside the project like this: BASE_DIR / 'subdir'.
+# Base
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 # Seguridad
 SECRET_KEY = os.getenv('SECRET_KEY', 'django-insecure-valor-falso-en-desarrollo')
-
 DEBUG = os.getenv('DEBUG', 'False') == 'True'
-
 ALLOWED_HOSTS = ['sistema-bancario-mmez.onrender.com', 'localhost', '127.0.0.1']
 
-# Aplicaciones instaladas
+# Apps
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
@@ -27,8 +25,9 @@ INSTALLED_APPS = [
     'solicitudes',
 ]
 
-# Middleware
+# Middleware (WHITENOISE al inicio)
 MIDDLEWARE = [
+    'whitenoise.middleware.WhiteNoiseMiddleware',  # <- 🔥 Agregado
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -58,27 +57,19 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'sistema_bancario.wsgi.application'
 
-# Base de datos (usa DATABASE_URL de Render)
+# Base de datos
 DATABASES = {
     'default': dj_database_url.config(
         default=os.getenv('DATABASE_URL')
     )
 }
 
-# Validadores de contraseñas
+# Validación de contraseñas
 AUTH_PASSWORD_VALIDATORS = [
-    {
-        'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
-    },
-    {
-        'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
-    },
-    {
-        'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
-    },
-    {
-        'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
-    },
+    {'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator'},
+    {'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator'},
+    {'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator'},
+    {'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator'},
 ]
 
 # Internacionalización
@@ -87,12 +78,13 @@ TIME_ZONE = 'America/Lima'
 USE_I18N = True
 USE_TZ = True
 
-# Archivos estáticos (Render usa esto)
+# Archivos estáticos para producción en Render
 STATIC_URL = 'static/'
 STATIC_ROOT = BASE_DIR / 'staticfiles'
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'  # <- 🔥
 
-# Configuración de login/logout
-# AUTH_USER_MODEL = "usuarios.Usuario"
+# Login/logout
+# AUTH_USER_MODEL = 'usuarios.Usuario'
 LOGIN_REDIRECT_URL = '/usuarios/home/'
 LOGIN_URL = '/usuarios/login/'
 LOGOUT_REDIRECT_URL = '/'
