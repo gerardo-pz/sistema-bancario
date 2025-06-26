@@ -1,15 +1,20 @@
-# run_once.py
+import os
+import django
 
-from django.core.management import call_command
+os.environ.setdefault("DJANGO_SETTINGS_MODULE", "sistema_bancario.settings")
+django.setup()
+
 from django.contrib.auth import get_user_model
+from django.core.management import call_command
 
-# Migraciones
-call_command('migrate')
+# Ejecutar migraciones
+print("Aplicando migraciones...")
+call_command("migrate")
 
-# Crear superusuario sin interacción
+# Crear superusuario solo si no existe
 User = get_user_model()
-if not User.objects.filter(username='admin').exists():
-    User.objects.create_superuser('admin', 'admin@example.com', 'admin123')
-    print("✅ Superusuario creado.")
+if not User.objects.filter(username="admin").exists():
+    print("Creando superusuario...")
+    User.objects.create_superuser("admin", "admin@example.com", "admin123")
 else:
-    print("⚠️ Ya existe el usuario admin.")
+    print("El superusuario ya existe.")
