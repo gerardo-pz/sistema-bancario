@@ -1,0 +1,50 @@
+<header>
+    <nav class="bg-blue-600 border-b border-gray-800">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between h-16 relative">
+            <a class="text-white font-bold text-2xl tracking-wide" href="{% url 'landing_page' %}">SISTEMA BANCARIO</a>
+            <!-- Menú de navegación siempre visible y responsivo -->
+            <div class="flex flex-col sm:flex-row w-full sm:w-auto bg-blue-600 sm:bg-transparent z-50 sm:z-auto shadow sm:shadow-none rounded-b-xl sm:rounded-none transition-all duration-300 ml-0 sm:ml-4">
+                <ul class="flex flex-col sm:flex-row space-y-2 sm:space-y-0 sm:space-x-2 items-center p-4 sm:p-0 w-full sm:w-auto">
+                    {% if user.is_authenticated %}
+                    <li>
+                        <a href="{% url 'home' %}" class="px-4 py-2 rounded-lg bg-white/10 text-white hover:bg-white/20 font-medium transition shadow">Inicio</a>
+                    </li>
+                    <li>
+                        <a href="{% url 'editar_perfil' %}" class="px-4 py-2 rounded-lg bg-white/10 text-white hover:bg-white/20 font-medium transition shadow">Mi perfil</a>
+                    </li>
+                    {% if user.is_superuser %}
+                    <li>
+                        <a href="{% url 'gestionar_solicitudes_prestamo' %}"
+                            class="px-4 py-2 rounded-lg bg-yellow-400 text-gray-900 font-bold hover:bg-yellow-500 transition shadow">
+                            Revisar solicitudes de préstamo
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{% url 'historial_sesiones' %}"
+                            class="px-4 py-2 rounded-lg bg-blue-500 text-white font-bold hover:bg-blue-700 transition shadow">
+                            Historial de sesiones
+                        </a>
+                    </li>
+                    {% endif %}
+                    <li>
+                        <span class="text-gray-200 px-3 py-2">Hola, {{ user.first_name }}</span>
+                    </li>
+                    <li>
+                        <form action="{% url 'logout' %}" method="post" class="inline">
+                            {% csrf_token %}
+                            <button type="submit" class="cursor-pointer px-4 py-2 rounded-lg bg-red-500 text-white font-medium hover:bg-red-600 transition shadow">Cerrar sesión</button>
+                        </form>
+                    </li>
+                    {% else %}
+                    <li>
+                        <a href="{% url 'registro' %}" class="px-4 py-2 rounded-lg bg-white/10 text-white hover:bg-white/20 font-medium transition shadow">Registrarse</a>
+                    </li>
+                    <li>
+                        <a href="{% url 'login' %}" class="px-4 py-2 rounded-lg bg-blue-700 text-white hover:bg-blue-800 font-medium transition shadow">Iniciar sesión</a>
+                    </li>
+                    {% endif %}
+                </ul>
+            </div>
+        </div>
+    </nav>
+</header>
